@@ -1,4 +1,4 @@
-# 🎮 Train Rush 🚂
+![image](https://github.com/user-attachments/assets/97600b42-de26-48ef-917a-6af8e098545a)# 🎮 Train Rush 🚂
 
 ## Descrição
 
@@ -74,7 +74,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE). 📜
     </td>
     <td align="center">
       <a href="https://github.com/daviaarruda" title="Github Davi Arruda">
-        <img src="https://avatars.githubusercontent.com/u/168493063?v=4" width="100px;" alt="Foto do Bruna Carvalho"/><br>
+        <img src="" width="100px;" alt="Foto do Davi Arruda"/><br>
         <sub>
           <b>Davi Arruda</b>
         </sub>
@@ -82,7 +82,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE). 📜
     </td>
     <td align="center">
       <a href="https://github.com/arthurlealp" title="Github Arthur Leal">
-        <img src="https://avatars.githubusercontent.com/u/141282511?v=4" width="100px;" alt="Foto João Pedro"/><br>
+        <img src="https://avatars.githubusercontent.com/u/141282511?v=4" width="100px;" alt="Foto Arthur Leal"/><br>
         <sub>
           <b>Arthur Leal</b>
         </sub>
