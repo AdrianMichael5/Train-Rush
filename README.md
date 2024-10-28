@@ -74,7 +74,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE). 📜
     </td>
     <td align="center">
       <a href="https://github.com/daviaarruda" title="Github Davi Arruda">
-        <img src="" width="100px;" alt="Foto do Davi Arruda"/><br>
+        <img src="https://github.com/user-attachments/assets/f27d2e4d-8fa1-4c38-a925-978af7ea9a7e" width="100px;" alt="Foto do Davi Arruda"/><br>
         <sub>
           <b>Davi Arruda</b>
         </sub>
@@ -82,7 +82,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE). 📜
     </td>
     <td align="center">
       <a href="https://github.com/arthurlealp" title="Github Arthur Leal">
-        <img src="https://avatars.githubusercontent.com/u/141282511?v=4" width="100px;" alt="Foto Arthur Leal"/><br>
+        <img src="https://github.com/user-attachments/assets/d1113067-67e1-4fe3-8603-b5805a0b7b39" width="100px;" alt="Foto Arthur Leal"/><br>
         <sub>
           <b>Arthur Leal</b>
         </sub>
