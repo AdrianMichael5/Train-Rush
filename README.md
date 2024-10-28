@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/97600b42-de26-48ef-917a-6af8e098545a)# 🎮 Train Rush 🚂
+# 🎮 Train Rush 🚂
 
 ## Descrição
 
