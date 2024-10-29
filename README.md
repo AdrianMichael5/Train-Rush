@@ -90,6 +90,6 @@ Este projeto está licenciado sob a [MIT License](LICENSE). 📜
     </td>
 </table>
 
+## Repobeats
 
-
-Divirta-se jogando! 🎉
+![Alt](https://repobeats.axiom.co/api/embed/674967678fcfdaddd099c25a230b12865a1c30a9.svg "Repobeats analytics image")
