@@ -32,7 +32,7 @@ Para compilar e executar o jogo, siga os passos abaixo:
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seuusuario/train-rush.git
+   git clone https://github.com/AdrianMichael5/train-rush.git
    ```
 2. Navegue até o diretório do jogo:
    ```bash
