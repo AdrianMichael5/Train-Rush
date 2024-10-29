@@ -8,7 +8,7 @@ Bem-vindo ao **Train Rush**! Neste jogo desenvolvido em C, você controla um per
 
 O objetivo do jogo é correr o máximo possível sem colidir com os vagões de trem. Mostre suas habilidades e teste seus reflexos! 🏆
 
-## Como Jogar
+## 🕹️ Como Jogar
 
 1. **Inicie o jogo** executando o arquivo `jogo.c` no seu terminal.
 2. **Use as teclas**:
@@ -19,7 +19,7 @@ O objetivo do jogo é correr o máximo possível sem colidir com os vagões de t
 3. **Evite os vagões** que aparecem em seu caminho. 🚧
 4. **Tente alcançar a maior distância possível**! 🌟
 
-## Instalação
+## ⚙️ Instalação
 
 Para compilar e executar o jogo, siga os passos abaixo:
 
