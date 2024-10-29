@@ -3,9 +3,7 @@
 ![image](https://github.com/user-attachments/assets/8a698006-972d-45bd-a6b8-d3c0050bb2d5)
 
 ## Descrição
-
 Bem-vindo ao **Train Rush**! Neste jogo desenvolvido em C, você controla um personagem que corre por uma estação de trem, tentando evitar os vagões que estão no caminho. A velocidade e os obstáculos aumentam conforme você avança, tornando o jogo cada vez mais desafiador! 🏃‍♂️💨
-
 ## Objetivo
 
 O objetivo do jogo é correr o máximo possível sem colidir com os vagões de trem. Mostre suas habilidades e teste seus reflexos! 🏆
