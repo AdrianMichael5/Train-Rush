@@ -62,7 +62,8 @@ Contribuições são bem-vindas! Se você deseja ajudar a melhorar o jogo, sinta
 Este projeto está licenciado sob a [MIT License](LICENSE). 📜
 
 ## 🤝 Equipe
-<table>
+<br>
+<table align="center">
   <tr>
     <td align="center">
       <a href="https://github.com/AdrianMichael5" title="Github Adrian Michael">
@@ -90,6 +91,10 @@ Este projeto está licenciado sob a [MIT License](LICENSE). 📜
     </td>
 </table>
 
-## Repobeats
+<br>
+<br>
+<p align="center"><img src="https://github.com/Taverna-Hub/ForgeSheets/assets/117609505/9287638f-8716-4e62-9989-a40882fbfed6" width="40px"></p>
+<p align="center">Projeto para a disciplina de <strong>Programação Imperativa e Funcional</strong> na <strong>CESAR School‎‎</strong></p>
 
-![Alt](https://repobeats.axiom.co/api/embed/674967678fcfdaddd099c25a230b12865a1c30a9.svg "Repobeats analytics image")
+## Repobeats
+<p align="center"><img src="https://repobeats.axiom.co/api/embed/674967678fcfdaddd099c25a230b12865a1c30a9.svg"></p>
