@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Bem-vindo ao **Train Rush**! Neste jogo, você controla um personagem que corre por uma estação de trem, tentando evitar os vagões que estão no caminho. A velocidade e os obstáculos aumentam conforme você avança, tornando o jogo cada vez mais desafiador! 🏃‍♂️💨
+Bem-vindo ao **Train Rush**! Neste jogo desenvolvido em C, você controla um personagem que corre por uma estação de trem, tentando evitar os vagões que estão no caminho. A velocidade e os obstáculos aumentam conforme você avança, tornando o jogo cada vez mais desafiador! 🏃‍♂️💨
 
 ## Objetivo
 
