@@ -1,4 +1,6 @@
-# 🎮 Train Rush 🚂
+<h1 align="center"> 🎮 Train Rush 🚂 </h1>
+
+![image](https://github.com/user-attachments/assets/8a698006-972d-45bd-a6b8-d3c0050bb2d5)
 
 ## Descrição
 
