@@ -6,29 +6,42 @@
 #include "timer.h"
 #include "time.h"
 
-// Estrutura para o jogador
-typedef struct {
+struct Jogador {
     int x, y;
-} Jogador;
+    int x_ant, y_ant;
+};
 
-// Funções auxiliares
-void iniciarJogo(Jogador *jogador);
-void desenharJogador(Jogador *jogador);
-void desenharVagoes(int linhaY, int espacoX);
-void limparLinha(int linhaY);
-void verificarColisao(Jogador *jogador, int linhaY, int espacoX, int *jogoEncerrado);
-void imprimirPontuacao(int pontuacao);
+#define AREA_MIN_X 10
+#define AREA_MAX_X 70
+#define AREA_MIN_Y 5
+#define AREA_MAX_Y 20
+
+float distanciaTotal = 0;
+
+void iniciarJogo(struct Jogador *jogador);
+void desenharJogador(struct Jogador *jogador);
+void limparPosicaoAnterior(struct Jogador *jogador);
+void desenharVagoes(float linhaY, int espacoX);
+void limparVagoes(int linhaY);
+void desenharBorda();
+void verificarColisao(struct Jogador *jogador, int linhaY, int espacoX, int *jogoEncerrado);
+void imprimirDistancia(int metros);
+float selecionarDificuldade();
+void exibirTelaInicial();
 
 int main() {
-    Jogador jogador;
-    int jogoEncerrado = 0;
-    int pontuacao = 0;
-    int tecla = 0;
-    long temporizador = 0;
-    int contadorAtualizacao = 0; // Variável de controle para a velocidade dos vagões
+    exibirTelaInicial();
+    float velocidadeVagoes = selecionarDificuldade();
 
-    // Inicializações
-    screenInit(1);
+    struct Jogador jogador;
+    int jogoEncerrado = 0;
+    int tecla = 0;
+    float linhaY = AREA_MIN_Y + 1;
+    int espacoX = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
+    int contadorAtualizacao = 0;
+
+    screenInit(0);
+    desenharBorda();
     keyboardInit();
     timerInit(100);
     srand(time(NULL));
@@ -36,44 +49,43 @@ int main() {
     iniciarJogo(&jogador);
     screenUpdate();
 
-    int linhaY = 1; // Posição inicial da linha dos vagões
-    int espacoX = rand() % (MAXX - 8) + 4; // Posição aleatória do espaço na linha
-
-    while (!jogoEncerrado && tecla != 10) { // Até o jogador apertar "Enter" ou perder
+    while (!jogoEncerrado && tecla != 10) {
         if (keyhit()) {
             tecla = readch();
-            if ((tecla == 'e' || tecla == 'E') && jogador.x < MAXX - 2) jogador.x++; // Mover para a direita
-            if ((tecla == 'q' || tecla == 'Q') && jogador.x > 1) jogador.x--; // Mover para a esquerda
+            jogador.x_ant = jogador.x;
+            jogador.y_ant = jogador.y;
+
+            if ((tecla == 'e' || tecla == 'E') && jogador.x < AREA_MAX_X - 1) jogador.x++;
+            if ((tecla == 'q' || tecla == 'Q') && jogador.x > AREA_MIN_X + 1) jogador.x--;
+
+            limparPosicaoAnterior(&jogador);
+            desenharJogador(&jogador);
+            screenUpdate();
         }
 
         if (timerTimeOver() == 1) {
-            contadorAtualizacao++;
-            if (contadorAtualizacao % 2 == 0) { // Diminui a velocidade dos vagões (ajustável)
-                limparLinha(linhaY - 1); // Limpa a linha anterior para remover os vagões antigos
-                linhaY++; // Move a linha de vagões para baixo
+            linhaY += velocidadeVagoes;
+            distanciaTotal += 0.1;
 
-                if (linhaY >= MAXY) { // Quando os vagões saem da tela
-                    linhaY = 1; // Reinicia no topo
-                    espacoX = rand() % (MAXX - 8) + 4; // Gera um novo espaço aleatório
-                    pontuacao++; // Incrementa a pontuação
-                }
-
-                desenharVagoes(linhaY, espacoX);
-                desenharJogador(&jogador);
-                verificarColisao(&jogador, linhaY, espacoX, &jogoEncerrado);
-                imprimirPontuacao(pontuacao);
-                screenUpdate();
+            if ((int)linhaY != contadorAtualizacao) {
+                limparVagoes(contadorAtualizacao);
+                contadorAtualizacao = (int)linhaY;
             }
-            temporizador++;
+
+            if (linhaY > AREA_MAX_Y) {
+                limparVagoes(AREA_MAX_Y);
+                linhaY = AREA_MIN_Y + 1;
+                espacoX = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
+            }
+
+            desenharVagoes(linhaY, espacoX);
+            desenharJogador(&jogador);
+            imprimirDistancia((int)distanciaTotal);
+            verificarColisao(&jogador, (int)linhaY, espacoX, &jogoEncerrado);
+            screenUpdate();
         }
     }
 
-    // Mensagem de final de jogo
-    screenSetColor(RED, BLACK);
-    screenGotoxy(MAXX / 2 - 5, MAXY / 2);
-    printf("VOCÊ PERDEU!");
-
-    // Limpeza
     keyboardDestroy();
     screenDestroy();
     timerDestroy();
@@ -81,46 +93,112 @@ int main() {
     return 0;
 }
 
-void iniciarJogo(Jogador *jogador) {
-    jogador->x = MAXX / 2;
-    jogador->y = MAXY - 2;
-    screenClear(); // Garante que a tela esteja limpa no início do jogo
+void iniciarJogo(struct Jogador *jogador) {
+    jogador->x = (AREA_MIN_X + AREA_MAX_X) / 2;
+    jogador->y = AREA_MAX_Y - 2;
+    jogador->x_ant = jogador->x;
+    jogador->y_ant = jogador->y;
+    screenClear();
+    desenharBorda();
+    screenUpdate();
 }
 
-void desenharJogador(Jogador *jogador) {
+void desenharJogador(struct Jogador *jogador) {
     screenSetColor(GREEN, BLACK);
     screenGotoxy(jogador->x, jogador->y);
-    printf("A"); // Representa o jogador
+    printf("🏃");
 }
 
-void desenharVagoes(int linhaY, int espacoX) {
+void limparPosicaoAnterior(struct Jogador *jogador) {
+    screenGotoxy(jogador->x_ant, jogador->y_ant);
+    printf(" ");
+}
+
+void desenharVagoes(float linhaY, int espacoX) {
     screenSetColor(RED, BLACK);
-    for (int x = 1; x <= MAXX; x++) {
-        // Aumenta o espaço para o jogador passar
-        if (x < espacoX || x > espacoX + 3) { // Deixa um espaço maior (4 caracteres de largura)
-            screenGotoxy(x, linhaY);
-            printf("V");
+    int yInteiro = (int)linhaY;
+    if (yInteiro > AREA_MIN_Y && yInteiro < AREA_MAX_Y) {
+        for (int x = AREA_MIN_X + 2; x < AREA_MAX_X; x++) {
+            if (x < espacoX || x > espacoX + 3) {
+                screenGotoxy(x, yInteiro);
+                printf("▅");
+            }
         }
     }
 }
 
-void limparLinha(int linhaY) {
-    if (linhaY > 0 && linhaY < MAXY) {
-        for (int x = 1; x <= MAXX; x++) {
+void limparVagoes(int linhaY) {
+    if (linhaY > AREA_MIN_Y && linhaY < AREA_MAX_Y) {
+        for (int x = AREA_MIN_X + 2; x < AREA_MAX_X; x++) {
             screenGotoxy(x, linhaY);
             printf(" ");
         }
     }
 }
 
-void verificarColisao(Jogador *jogador, int linhaY, int espacoX, int *jogoEncerrado) {
-    if (jogador->y == linhaY && (jogador->x < espacoX || jogador->x > espacoX + 3)) {
-        *jogoEncerrado = 1; // O jogador colidiu com um vagão
+void desenharBorda() {
+    screenSetColor(YELLOW, BLACK);
+    for (int y = AREA_MIN_Y; y <= AREA_MAX_Y; y++) {
+        screenGotoxy(AREA_MIN_X, y);
+        printf("🟨");
+        screenGotoxy(AREA_MAX_X, y);
+        printf("🟨");
     }
 }
 
-void imprimirPontuacao(int pontuacao) {
+void verificarColisao(struct Jogador *jogador, int linhaY, int espacoX, int *jogoEncerrado) {
+    if (jogador->y == linhaY && (jogador->x < espacoX || jogador->x > espacoX + 3)) {
+        *jogoEncerrado = 1;
+    }
+}
+
+void imprimirDistancia(int metros) {
     screenSetColor(WHITE, BLACK);
-    screenGotoxy(2, 2);
-    printf("Vagões passados: %d", pontuacao);
+    screenGotoxy(AREA_MIN_X + 2, AREA_MIN_Y - 1);
+    printf("Distância: %d metros", metros);
+    screenUpdate();
+}
+
+float selecionarDificuldade() {
+    int escolha = 0;
+    while (escolha < 1 || escolha > 4) {
+        screenClear();
+        screenSetColor(WHITE, BLACK);
+        screenGotoxy(AREA_MIN_X + 15, AREA_MIN_Y - 2);
+        printf("Bem-vindo ao Train-Rush!");
+        screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y + 1);
+        printf("Escolha a dificuldade:");
+        screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y + 3);
+        printf("1 - Facil");
+        screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y + 4);
+        printf("2 - Media");
+        screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y + 5);
+        printf("3 - Dificil");
+        screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y + 6);
+        printf("4 - Impossivel");
+
+        screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y + 8);
+        printf("Escolha (1-4): ");
+        scanf("%d", &escolha);
+    }
+
+    switch (escolha) {
+        case 1: return 0.3;
+        case 2: return 0.5;
+        case 3: return 0.7;
+        case 4: return 1.0;
+        default: return 0.5;
+    }
+}
+
+void exibirTelaInicial() {
+    screenClear();
+    screenSetColor(YELLOW, BLACK);
+    screenGotoxy(AREA_MIN_X + 15, AREA_MIN_Y - 3);
+    printf("Train-Rush");
+    screenSetColor(WHITE, BLACK);
+    screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y);
+    printf("Pressione qualquer tecla para iniciar...");
+    screenUpdate();
+    getchar();
 }
