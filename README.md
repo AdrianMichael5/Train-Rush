@@ -13,10 +13,10 @@ O objetivo do jogo é correr o máximo possível sem colidir com os vagões de t
 1. **Inicie o jogo** executando o arquivo `jogo.c` no seu terminal.
 
 2. **Escolha a dificuldade** escolha uma das dificuldades
-   - `1` Facil
-   - `2` Média
-   - `3` Díficil
-   - `4` Impossível
+   - `1` Facil 🟢 
+   - `2` Média 🟡
+   - `3` Díficil 🔴
+   - `4` Impossível ⚫
 
 4. **Use as teclas**:
    - `Q` para mover para a esquerda. ⬅️
