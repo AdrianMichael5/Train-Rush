@@ -15,7 +15,6 @@ O objetivo do jogo é correr o máximo possível sem colidir com os vagões de t
 3. **Use as teclas**:
    - `Q` para mover para a esquerda. ⬅️
    - `E` para mover para a direita. ➡️
-   - 
 4. **Evite os vagões** que aparecem em seu caminho. 🚧
 5. 
 6. **Tente alcançar a maior distância possível**! 🌟
