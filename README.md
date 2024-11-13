@@ -38,18 +38,22 @@ Para compilar e executar o jogo, siga os passos abaixo:
 ### Passos
 
 1. Clone este repositório:
-   ```bash
+
+    ```bash
    git clone https://github.com/AdrianMichael5/train-rush.git
    ```
-2. Navegue até o diretório do jogo (Talvez o caminho precise de ajuste):
-   ```bash
+2. Navegue até o diretório do jogo (Talvez o caminho precise de ajuste):  
+
+    ```bash
    cd train-rush
    ```
-3. Compile o código:
-   ```bash
+3. Compile o código:  
+
+    ```bash
    $ gcc ./src/*.c -I./include -o Train-Rush
    ```
-4. Execute o jogo:
+4. Execute o jogo:  
+
    ```bash
    ./Train_Rush
    ```
