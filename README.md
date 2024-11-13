@@ -11,13 +11,20 @@ O objetivo do jogo é correr o máximo possível sem colidir com os vagões de t
 ## 🕹️ Como Jogar
 
 1. **Inicie o jogo** executando o arquivo `jogo.c` no seu terminal.
-2. **Use as teclas**:
-   - `W` para acelerar. ⏩
-   - `S` para desacelerar. ⏪
-   - `A` para mover para a esquerda. ⬅️
-   - `D` para mover para a direita. ➡️
-3. **Evite os vagões** que aparecem em seu caminho. 🚧
-4. **Tente alcançar a maior distância possível**! 🌟
+
+2. **Escolha a dificuldade** escolha uma das dificuldades
+   - `1` Facil 🟢 
+   - `2` Média 🟡
+   - `3` Díficil 🔴
+   - `4` Impossível ⚫💀
+
+4. **Use as teclas**:
+   - `Q` para mover para a esquerda. ⬅️
+   - `E` para mover para a direita. ➡️
+
+5. **Evite os vagões** que aparecem em seu caminho. 🚧
+ 
+6. **Tente alcançar a maior distância possível**! 🌟
 
 ## ⚙️ Instalação
 
@@ -31,20 +38,24 @@ Para compilar e executar o jogo, siga os passos abaixo:
 ### Passos
 
 1. Clone este repositório:
-   ```bash
+
+    ```bash
    git clone https://github.com/AdrianMichael5/train-rush.git
    ```
-2. Navegue até o diretório do jogo:
-   ```bash
+2. Navegue até o diretório do jogo (Talvez o caminho precise de ajuste):  
+
+    ```bash
    cd train-rush
    ```
-3. Compile o código:
-   ```bash
-   gcc jogo.c -o train_rush
+3. Compile o código:  
+
+    ```bash
+   $ gcc ./src/*.c -I./include -o Train-Rush
    ```
-4. Execute o jogo:
+4. Execute o jogo:  
+
    ```bash
-   ./train_rush
+   ./Train_Rush
    ```
 
 ## Recursos
@@ -52,10 +63,6 @@ Para compilar e executar o jogo, siga os passos abaixo:
 - Gráficos simples em ASCII. ✨
 - Aumenta a dificuldade com o tempo. ⏳
 - Pontuação alta para competir com amigos! 🥇
-
-## Contribuições
-
-Contribuições são bem-vindas! Se você deseja ajudar a melhorar o jogo, sinta-se à vontade para abrir uma issue ou enviar um pull request. 🤝
 
 ## Licença
 
