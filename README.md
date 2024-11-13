@@ -11,13 +11,14 @@ O objetivo do jogo é correr o máximo possível sem colidir com os vagões de t
 ## 🕹️ Como Jogar
 
 1. **Inicie o jogo** executando o arquivo `jogo.c` no seu terminal.
-2. **Use as teclas**:
-   - `W` para acelerar. ⏩
-   - `S` para desacelerar. ⏪
-   - `A` para mover para a esquerda. ⬅️
-   - `D` para mover para a direita. ➡️
-3. **Evite os vagões** que aparecem em seu caminho. 🚧
-4. **Tente alcançar a maior distância possível**! 🌟
+2. 
+3. **Use as teclas**:
+   - `Q` para mover para a esquerda. ⬅️
+   - `E` para mover para a direita. ➡️
+   - 
+4. **Evite os vagões** que aparecem em seu caminho. 🚧
+5. 
+6. **Tente alcançar a maior distância possível**! 🌟
 
 ## ⚙️ Instalação
 
