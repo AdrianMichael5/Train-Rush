@@ -7,8 +7,8 @@
 #include "time.h"
 
 struct Jogador {
-    int x, y;
-    int x_ant, y_ant;
+    int posicao_x, posicao_y;
+    int posicao_x_anterior, posicao_y_anterior;
 };
 
 #define AREA_MIN_X 10
@@ -16,29 +16,27 @@ struct Jogador {
 #define AREA_MIN_Y 5
 #define AREA_MAX_Y 20
 
-float distanciaTotal = 0;
+float distancia_total = 0;
 
 void iniciarJogo(struct Jogador *jogador);
 void desenharJogador(struct Jogador *jogador);
 void limparPosicaoAnterior(struct Jogador *jogador);
-void desenharVagoes(float linhaY, int espacoX);
-void limparVagoes(int linhaY);
+void desenharVagoes(float posicao_linha_y, int espaco_x);
+void limparVagoes(int linha_y);
 void desenharBorda();
-void verificarColisao(struct Jogador *jogador, int linhaY, int espacoX, int *jogoEncerrado);
+void verificarColisao(struct Jogador *jogador, int linha_y, int espaco_x, int *jogo_encerrado);
 void imprimirDistancia(int metros);
 float selecionarDificuldade();
-void exibirTelaInicial();
 
 int main() {
-    exibirTelaInicial();
-    float velocidadeVagoes = selecionarDificuldade();
+    float velocidade_vagoes = selecionarDificuldade(); // Mostra as opções de dificuldade imediatamente
 
     struct Jogador jogador;
-    int jogoEncerrado = 0;
+    int jogo_encerrado = 0;
     int tecla = 0;
-    float linhaY = AREA_MIN_Y + 1;
-    int espacoX = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
-    int contadorAtualizacao = 0;
+    float linha_y = AREA_MIN_Y + 1;
+    int espaco_x = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
+    int contador_atualizacao = 0;
 
     screenInit(0);
     desenharBorda();
@@ -49,14 +47,14 @@ int main() {
     iniciarJogo(&jogador);
     screenUpdate();
 
-    while (!jogoEncerrado && tecla != 10) {
+    while (!jogo_encerrado && tecla != 10) {
         if (keyhit()) {
             tecla = readch();
-            jogador.x_ant = jogador.x;
-            jogador.y_ant = jogador.y;
+            jogador.posicao_x_anterior = jogador.posicao_x;
+            jogador.posicao_y_anterior = jogador.posicao_y;
 
-            if ((tecla == 'e' || tecla == 'E') && jogador.x < AREA_MAX_X - 1) jogador.x++;
-            if ((tecla == 'q' || tecla == 'Q') && jogador.x > AREA_MIN_X + 1) jogador.x--;
+            if ((tecla == 'e' || tecla == 'E') && jogador.posicao_x < AREA_MAX_X - 1) jogador.posicao_x++;
+            if ((tecla == 'q' || tecla == 'Q') && jogador.posicao_x > AREA_MIN_X + 1) jogador.posicao_x--;
 
             limparPosicaoAnterior(&jogador);
             desenharJogador(&jogador);
@@ -64,24 +62,24 @@ int main() {
         }
 
         if (timerTimeOver() == 1) {
-            linhaY += velocidadeVagoes;
-            distanciaTotal += 0.1;
+            linha_y += velocidade_vagoes;
+            distancia_total += 0.1;
 
-            if ((int)linhaY != contadorAtualizacao) {
-                limparVagoes(contadorAtualizacao);
-                contadorAtualizacao = (int)linhaY;
+            if ((int)linha_y != contador_atualizacao) {
+                limparVagoes(contador_atualizacao);
+                contador_atualizacao = (int)linha_y;
             }
 
-            if (linhaY > AREA_MAX_Y) {
+            if (linha_y > AREA_MAX_Y) {
                 limparVagoes(AREA_MAX_Y);
-                linhaY = AREA_MIN_Y + 1;
-                espacoX = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
+                linha_y = AREA_MIN_Y + 1;
+                espaco_x = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
             }
 
-            desenharVagoes(linhaY, espacoX);
+            desenharVagoes(linha_y, espaco_x);
             desenharJogador(&jogador);
-            imprimirDistancia((int)distanciaTotal);
-            verificarColisao(&jogador, (int)linhaY, espacoX, &jogoEncerrado);
+            imprimirDistancia((int)distancia_total);
+            verificarColisao(&jogador, (int)linha_y, espaco_x, &jogo_encerrado);
             screenUpdate();
         }
     }
@@ -94,10 +92,10 @@ int main() {
 }
 
 void iniciarJogo(struct Jogador *jogador) {
-    jogador->x = (AREA_MIN_X + AREA_MAX_X) / 2;
-    jogador->y = AREA_MAX_Y - 2;
-    jogador->x_ant = jogador->x;
-    jogador->y_ant = jogador->y;
+    jogador->posicao_x = (AREA_MIN_X + AREA_MAX_X) / 2;
+    jogador->posicao_y = AREA_MAX_Y - 2;
+    jogador->posicao_x_anterior = jogador->posicao_x;
+    jogador->posicao_y_anterior = jogador->posicao_y;
     screenClear();
     desenharBorda();
     screenUpdate();
@@ -105,32 +103,32 @@ void iniciarJogo(struct Jogador *jogador) {
 
 void desenharJogador(struct Jogador *jogador) {
     screenSetColor(GREEN, BLACK);
-    screenGotoxy(jogador->x, jogador->y);
+    screenGotoxy(jogador->posicao_x, jogador->posicao_y);
     printf("🏃");
 }
 
 void limparPosicaoAnterior(struct Jogador *jogador) {
-    screenGotoxy(jogador->x_ant, jogador->y_ant);
+    screenGotoxy(jogador->posicao_x_anterior, jogador->posicao_y_anterior);
     printf(" ");
 }
 
-void desenharVagoes(float linhaY, int espacoX) {
+void desenharVagoes(float posicao_linha_y, int espaco_x) {
     screenSetColor(RED, BLACK);
-    int yInteiro = (int)linhaY;
-    if (yInteiro > AREA_MIN_Y && yInteiro < AREA_MAX_Y) {
+    int linha_y_inteira = (int)posicao_linha_y;
+    if (linha_y_inteira > AREA_MIN_Y && linha_y_inteira < AREA_MAX_Y) {
         for (int x = AREA_MIN_X + 2; x < AREA_MAX_X; x++) {
-            if (x < espacoX || x > espacoX + 3) {
-                screenGotoxy(x, yInteiro);
+            if (x < espaco_x || x > espaco_x + 3) {
+                screenGotoxy(x, linha_y_inteira);
                 printf("▅");
             }
         }
     }
 }
 
-void limparVagoes(int linhaY) {
-    if (linhaY > AREA_MIN_Y && linhaY < AREA_MAX_Y) {
+void limparVagoes(int linha_y) {
+    if (linha_y > AREA_MIN_Y && linha_y < AREA_MAX_Y) {
         for (int x = AREA_MIN_X + 2; x < AREA_MAX_X; x++) {
-            screenGotoxy(x, linhaY);
+            screenGotoxy(x, linha_y);
             printf(" ");
         }
     }
@@ -146,9 +144,9 @@ void desenharBorda() {
     }
 }
 
-void verificarColisao(struct Jogador *jogador, int linhaY, int espacoX, int *jogoEncerrado) {
-    if (jogador->y == linhaY && (jogador->x < espacoX || jogador->x > espacoX + 3)) {
-        *jogoEncerrado = 1;
+void verificarColisao(struct Jogador *jogador, int linha_y, int espaco_x, int *jogo_encerrado) {
+    if (jogador->posicao_y == linha_y && (jogador->posicao_x < espaco_x || jogador->posicao_x > espaco_x + 3)) {
+        *jogo_encerrado = 1;
     }
 }
 
@@ -189,16 +187,4 @@ float selecionarDificuldade() {
         case 4: return 1.0;
         default: return 0.5;
     }
-}
-
-void exibirTelaInicial() {
-    screenClear();
-    screenSetColor(YELLOW, BLACK);
-    screenGotoxy(AREA_MIN_X + 15, AREA_MIN_Y - 3);
-    printf("Train-Rush");
-    screenSetColor(WHITE, BLACK);
-    screenGotoxy(AREA_MIN_X + 10, AREA_MIN_Y);
-    printf("Pressione qualquer tecla para iniciar...");
-    screenUpdate();
-    getchar();
 }
