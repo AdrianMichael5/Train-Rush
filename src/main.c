@@ -6,16 +6,39 @@
 #include "timer.h"
 #include "time.h"
 
+<<<<<<< HEAD
 struct Jogador {
     int posicao_x, posicao_y;
     int posicao_x_anterior, posicao_y_anterior;
 };
 
+=======
+>>>>>>> origin/main
 #define AREA_MIN_X 10
 #define AREA_MAX_X 70
 #define AREA_MIN_Y 5
 #define AREA_MAX_Y 20
+#define MAX_JOGADORES 10
 
+<<<<<<< HEAD
+=======
+typedef struct {
+    char iniciais[4]; 
+    int score;        
+} TopScore;
+
+struct Jogador {
+    int posicao_x, posicao_y;
+    int posicao_x_anterior, posicao_y_anterior;
+};
+
+typedef struct TopScore {
+    char *iniciais;          
+    int score;               
+    struct TopScore *prox;   
+} TopScore;
+
+>>>>>>> origin/main
 float distancia_total = 0;
 
 void iniciarJogo(struct Jogador *jogador);
@@ -27,9 +50,21 @@ void desenharBorda();
 void verificarColisao(struct Jogador *jogador, int linha_y, int espaco_x, int *jogo_encerrado);
 void imprimirDistancia(int metros);
 float selecionarDificuldade();
+<<<<<<< HEAD
 
 int main() {
     float velocidade_vagoes = selecionarDificuldade(); // Mostra as opções de dificuldade imediatamente
+=======
+
+void adicionarTopScore(TopScore **lista, char *iniciais, int score);
+void salvarTopScores(const char *arquivo, TopScore *lista);
+TopScore* carregarTopScores(const char *arquivo);
+void exibirTopScores(TopScore *lista);
+void liberarLista(TopScore *lista);
+
+int main() {
+    float velocidade_vagoes = selecionarDificuldade();
+>>>>>>> origin/main
 
     struct Jogador jogador;
     int jogo_encerrado = 0;
@@ -37,12 +72,20 @@ int main() {
     float linha_y = AREA_MIN_Y + 1;
     int espaco_x = rand() % (AREA_MAX_X - AREA_MIN_X - 8) + AREA_MIN_X + 2;
     int contador_atualizacao = 0;
+<<<<<<< HEAD
+=======
+
+    TopScore *listaTopScores = carregarTopScores("topscores.txt");
+>>>>>>> origin/main
 
     screenInit(0);
     desenharBorda();
     keyboardInit();
     timerInit(100);
     srand(time(NULL));
+
+    printf("Bem-vindo ao Train Rush!\n");
+    exibirTopScores(listaTopScores);
 
     iniciarJogo(&jogador);
     screenUpdate();
@@ -87,6 +130,19 @@ int main() {
     keyboardDestroy();
     screenDestroy();
     timerDestroy();
+
+    printf("Jogo finalizado!\n");
+    printf("Pontuação final: %.2f\n", distancia_total);
+
+    char *iniciais = malloc(4 * sizeof(char));
+    printf("Digite suas iniciais (3 letras): ");
+    scanf("%3s", iniciais);
+
+    adicionarTopScore(&listaTopScores, iniciais, (int)distancia_total);
+    salvarTopScores("topscores.txt", listaTopScores);
+    exibirTopScores(listaTopScores);
+
+    liberarLista(listaTopScores);
 
     return 0;
 }
@@ -187,4 +243,66 @@ float selecionarDificuldade() {
         case 4: return 1.0;
         default: return 0.5;
     }
+<<<<<<< HEAD
+=======
+}
+
+void adicionarTopScore(TopScore **lista, char *iniciais, int score) {
+    TopScore *novo = malloc(sizeof(TopScore));
+    novo->iniciais = iniciais;
+    novo->score = score;
+    novo->prox = *lista;
+    *lista = novo;
+}
+
+void salvarTopScores(const char *arquivo, TopScore *lista) {
+    FILE *fp = fopen(arquivo, "w");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de top scores!\n");
+        return;
+    }
+    TopScore *atual = lista;
+    while (atual != NULL) {
+        fprintf(fp, "%s %d\n", atual->iniciais, atual->score);
+        atual = atual->prox;
+    }
+    fclose(fp);
+}
+
+TopScore* carregarTopScores(const char *arquivo) {
+    FILE *fp = fopen(arquivo, "r");
+    if (fp == NULL) {
+        return NULL; 
+    }
+    TopScore *lista = NULL;
+    char iniciais[4];
+    int score;
+
+    while (fscanf(fp, "%s %d", iniciais, &score) != EOF) {
+        char *iniciais_dinamicas = malloc(4 * sizeof(char));
+        strcpy(iniciais_dinamicas, iniciais);
+        adicionarTopScore(&lista, iniciais_dinamicas, score);
+    }
+    fclose(fp);
+    return lista;
+}
+
+void exibirTopScores(TopScore *lista) {
+    printf("\n==== Top Scores ====\n");
+    TopScore *atual = lista;
+    while (atual != NULL) {
+        printf("%s - %d pontos\n", atual->iniciais, atual->score);
+        atual = atual->prox;
+    }
+}
+
+void liberarLista(TopScore *lista) {
+    TopScore *atual = lista;
+    while (atual != NULL) {
+        TopScore *temp = atual;
+        atual = atual->prox;
+        free(temp->iniciais);
+        free(temp);
+    }
+>>>>>>> origin/main
 }
