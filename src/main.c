@@ -6,6 +6,17 @@
 #include "timer.h"
 #include "time.h"
 
+#define AREA_MIN_X 10
+#define AREA_MAX_X 70
+#define AREA_MIN_Y 5
+#define AREA_MAX_Y 20
+#define MAX_JOGADORES 10
+
+typedef struct {
+    char iniciais[4]; 
+    int score;        
+} TopScore;
+
 struct Jogador {
     int posicao_x, posicao_y;
     int posicao_x_anterior, posicao_y_anterior;
@@ -27,6 +38,8 @@ void desenharBorda();
 void verificarColisao(struct Jogador *jogador, int linha_y, int espaco_x, int *jogo_encerrado);
 void imprimirDistancia(int metros);
 float selecionarDificuldade();
+void salvarTopScore(const char *arquivo, TopScore *jogador);
+void exibirTopScores(const char *arquivo);
 
 int main() {
     float velocidade_vagoes = selecionarDificuldade(); // Mostra as opções de dificuldade imediatamente
@@ -43,6 +56,9 @@ int main() {
     keyboardInit();
     timerInit(100);
     srand(time(NULL));
+
+    printf("Bem-vindo ao Train Rush!\n");
+    exibirTopScores("topscores.txt");
 
     iniciarJogo(&jogador);
     screenUpdate();
@@ -87,6 +103,21 @@ int main() {
     keyboardDestroy();
     screenDestroy();
     timerDestroy();
+
+    printf("Jogo finalizado!\n");
+    printf("Pontuação final: %.2f\n", distancia_total);
+
+    char iniciais[4];
+    printf("Digite suas iniciais (3 letras): ");
+    scanf("%3s", iniciais);
+
+    TopScore jogadorAtual;
+    strncpy(jogadorAtual.iniciais, iniciais, 3);
+    jogadorAtual.iniciais[3] = '\0'; 
+    jogadorAtual.score = (int)distancia_total;
+
+    salvarTopScore("topscores.txt", &jogadorAtual);
+    exibirTopScores("topscores.txt");
 
     return 0;
 }
@@ -187,4 +218,31 @@ float selecionarDificuldade() {
         case 4: return 1.0;
         default: return 0.5;
     }
+}
+
+void salvarTopScore(const char *arquivo, TopScore *jogador) {
+    FILE *fp = fopen(arquivo, "a"); 
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de top scores!\n");
+        return;
+    }
+    fprintf(fp, "%s %d\n", jogador->iniciais, jogador->score); 
+    fclose(fp);
+}
+
+void exibirTopScores(const char *arquivo) {
+    FILE *fp = fopen(arquivo, "r");
+    if (fp == NULL) {
+        printf("Nenhum top score registrado ainda.\n");
+        return;
+    }
+
+    printf("\n==== Top Scores ====\n");
+    char iniciais[4];
+    int score;
+
+    while (fscanf(fp, "%s %d", iniciais, &score) != EOF) {
+        printf("%s - %d pontos\n", iniciais, score);
+    }
+    fclose(fp);
 }
